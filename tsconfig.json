@@ -3,11 +3,12 @@
     "rootDir": "src",
     "outDir": "dist",
 
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "target": "ES2023",
 
-    "lib": ["ES2022"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+
+    "lib": ["ES2023"],
     "types": ["node"],
 
     "sourceMap": true,
@@ -23,8 +24,12 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
 
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+
+    "ignoreDeprecations": "6.0"
   },
+
   "include": ["src/**/*"],
+
   "exclude": ["node_modules", "dist"]
 }

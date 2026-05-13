@@ -1,9 +1,9 @@
 ﻿import { Router } from 'express';
-import { TodosController } from './controller.js';
 
+import { TodosController } from './controller.js';
+import { TodoValidators } from './validators.js';
 
 export class TodoRoutes {
-
 
     static get routes(): Router {
 
@@ -11,17 +11,35 @@ export class TodoRoutes {
 
         const todoController = new TodosController();
 
-        router.get('/', todoController.getTodos );
-        router.get('/:id', todoController.getTodoById );
+        router.get(
+            '/',
+            todoController.getTodos
+        );
 
-        router.post('/', todoController.createTodo );
-        router.put('/:id', todoController.updateTodo );
-        router.delete('/:id', todoController.deleteTodo );
+        router.get(
+            '/:id',
+            TodoValidators.getTodoById,
+            todoController.getTodoById
+        );
 
+        router.post(
+            '/',
+            TodoValidators.createTodo,
+            todoController.createTodo
+        );
+
+        router.put(
+            '/:id',
+            TodoValidators.updateTodo,
+            todoController.updateTodo
+        );
+
+        router.delete(
+            '/:id',
+            TodoValidators.deleteTodo,
+            todoController.deleteTodo
+        );
 
         return router;
     }
-
-
 }
-

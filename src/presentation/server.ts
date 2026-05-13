@@ -1,5 +1,7 @@
 import express, { Router } from 'express';
 import path from 'path';
+import {notFound} from "./middlewares/not-found.js";
+import {errorHandler} from "./middlewares/error-handler.js";
 
 interface Options {
   port: number;
@@ -22,9 +24,7 @@ export class Server {
     this.routes = routes;
   }
 
-
-
-  async start() {
+  async start(): Promise<void> {
 
 
     //* Middlewares
@@ -45,6 +45,11 @@ export class Server {
       res.sendFile(indexPath);
     });
 
+    //* 404 Middleware
+    this.app.use( notFound );
+
+    //* Global Error Handler
+    this.app.use( errorHandler );
 
     this.app.listen(this.port, () => {
       console.log(`Server running on port ${ this.port }`);

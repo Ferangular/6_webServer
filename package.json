@@ -9,8 +9,16 @@
     "http": "tsx watch src/app.http.ts",
     "http2": "tsx watch src/app.http2.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node dist/app.js",
-    "start:browser": "npm run build && start http://localhost:3000 && node dist/app.js"
+    "start": "node dist/app.js",
+    "start:prod": "npm run prisma:migrate:prod && npm run start",
+    "start:browser": "npm run build && start http://localhost:3000 && node dist/app.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate:prod": "prisma migrate deploy",
+    "prisma:studio": "prisma studio",
+    "docker:build": "docker compose -p webserver build",
+    "docker:run": "docker compose -p webserver up -d",
+    "docker:down": "docker compose -p webserver down"
   },
   "keywords": [],
   "author": "",
@@ -24,8 +32,13 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
     "dotenv": "^17.4.2",
     "env-var": "^7.5.0",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "pg": "^8.20.0",
+    "prisma": "^7.8.0"
   }
 }
