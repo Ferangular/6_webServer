@@ -19,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/compression": "^1.8.1",
     "@types/express": "^5.0.6",
     "@types/node": "^25.7.0",
     "prisma": "^6.19.0",
@@ -29,6 +30,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
+    "compression": "^1.8.2",
     "dotenv": "^17.4.2",
     "env-var": "^7.5.0",
     "express": "^5.2.1"
