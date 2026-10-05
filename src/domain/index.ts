@@ -7,3 +7,4 @@ export * from './use-cases/todo/delete-todo.js';
 export * from './use-cases/todo/get-todo.js';
 export * from './use-cases/todo/get-todos.js';
 export * from './use-cases/todo/update-todo.js';
+export * from './errors/custom.error.js';

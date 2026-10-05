@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.spec.json",
+  "compilerOptions": {
+    "rootDir": "..",
+    "noEmit": true
+  },
+  "include": [
+    "../src/**/*.ts",
+    "./**/*.ts",
+    "../setupTests.ts"
+  ]
+}

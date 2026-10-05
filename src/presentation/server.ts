@@ -1,5 +1,6 @@
 import compression from 'compression';
 import express, { Router } from 'express';
+import { Server as HttpServer } from 'http';
 import path from 'path';
 
 interface Options {
@@ -9,7 +10,8 @@ interface Options {
 }
 
 export class Server {
-  private app = express();
+  public readonly app = express();
+  private serverListener?: HttpServer;
   private readonly port: number;
   private readonly publicPath: string;
   private readonly routes: Router;
@@ -21,7 +23,7 @@ export class Server {
     this.routes = routes;
   }
 
-  async start() {
+  async start(): Promise<void> {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(compression());
@@ -33,8 +35,15 @@ export class Server {
       res.sendFile(indexPath);
     });
 
-    this.app.listen(this.port, () => {
-      console.log(`Server running on port ${this.port}`);
+    await new Promise<void>((resolve, reject) => {
+      this.serverListener = this.app.listen(this.port, (error?: Error) => {
+        if (error) reject(error);
+        else resolve();
+      });
     });
+  }
+
+  public close(): void {
+    this.serverListener?.close();
   }
 }

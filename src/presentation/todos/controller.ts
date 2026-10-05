@@ -1,13 +1,15 @@
 import { Request, Response } from 'express';
-import { CreateTodo, CreateTodoDto, DeleteTodo, GetTodo, GetTodos, TodoRepository, UpdateTodo, UpdateTodoDto } from '../../domain/index.js';
+import { CreateTodo, CreateTodoDto, CustomError, DeleteTodo, GetTodo, GetTodos, TodoRepository, UpdateTodo, UpdateTodoDto } from '../../domain/index.js';
 
 export class TodosController {
     constructor(private readonly todoRepository: TodoRepository) {}
 
     private handleError = (error: unknown, res: Response): void => {
-        const message = error instanceof Error ? error.message : 'Unexpected error';
-        const status = message.includes('not found') ? 404 : 400;
-        res.status(status).json({ error: message });
+        if (error instanceof CustomError) {
+            res.status(error.statusCode).json({ error: error.message });
+            return;
+        }
+        res.status(500).json({ error: 'Internal server error' });
     };
 
     public getTodos = async (req: Request, res: Response): Promise<void> => {
