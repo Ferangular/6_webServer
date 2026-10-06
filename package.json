@@ -28,6 +28,7 @@
         "@types/jest": "^29.5.14",
         "@types/jsonwebtoken": "^9.0.10",
         "@types/node": "^25.7.0",
+        "@types/nodemailer": "^7.0.2",
         "@types/supertest": "^6.0.3",
         "dotenv-cli": "^8.0.0",
         "jest": "^29.7.0",
@@ -47,6 +48,7 @@
         "env-var": "^7.5.0",
         "express": "^5.2.1",
         "jsonwebtoken": "^9.0.2",
-        "mongoose": "^8.19.1"
+        "mongoose": "^8.19.1",
+        "nodemailer": "^7.0.9"
     }
 }

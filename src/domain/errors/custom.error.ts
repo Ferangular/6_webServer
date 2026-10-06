@@ -15,6 +15,10 @@ export class CustomError extends Error {
         return new CustomError(message, 500);
     }
 
+    static unauthorized(message: string): CustomError {
+        return new CustomError(message, 401);
+    }
+
     static notFound(message: string): CustomError {
         return new CustomError(message, 404);
     }

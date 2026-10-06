@@ -38,4 +38,18 @@ export class AuthController {
             this.handleError(caughtError, res);
         }
     };
+
+    validateEmail = async (req: Request, res: Response): Promise<void> => {
+        const token = req.params.token;
+        if (typeof token !== 'string' || !token) {
+            res.status(400).json({ error: 'Token is required' });
+            return;
+        }
+        try {
+            await this.authService.validateEmail(token);
+            res.json({ message: 'Email was validated successfully' });
+        } catch (caughtError) {
+            this.handleError(caughtError, res);
+        }
+    };
 }
