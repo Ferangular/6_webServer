@@ -1,5 +1,5 @@
 
-
+doc/
 node_modules/
 postgres/
 keys/
@@ -7,3 +7,4 @@ keys/
 
 .env.test
 coverage/
+mongo/
