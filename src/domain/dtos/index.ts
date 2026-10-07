@@ -4,3 +4,4 @@ export * from './auth/login-user.dto.js';
 export * from './auth/register-user.dto.js';
 export * from './category/create-category.dto.js';
 export * from './shared/pagination.dto.js';
+export * from './products/create-product.dto.js';
