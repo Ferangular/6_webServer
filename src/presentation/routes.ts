@@ -5,6 +5,7 @@ import { ProductRoutes } from './products/routes.js';
 import { FileUploadRoutes } from './file-upload/routes.js';
 import { ImageRoutes } from './images/routes.js';
 import { TodoRoutes } from './todos/routes.js';
+import { GithubRoutes } from './github/routes.js';
 
 export class AppRoutes {
     static get routes(): Router {
@@ -15,6 +16,7 @@ export class AppRoutes {
         router.use('/api/upload', FileUploadRoutes.routes);
         router.use('/api/images', ImageRoutes.routes);
         router.use('/api/todos', TodoRoutes.routes);
+        router.use('/api/github', GithubRoutes.routes);
         return router;
     }
 }
