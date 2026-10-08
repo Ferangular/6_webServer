@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Chat</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; margin: 0; display: grid; place-items: center; background: #09090b; color: #fafafa; }
+    main { width: min(92vw, 680px); padding: 2rem; border: 1px solid #27272a; border-radius: 1rem; background: #18181b; box-shadow: 0 24px 60px #0008; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    h1 { margin: 0; font-size: 1.5rem; }
+    #status { padding: .35rem .7rem; border-radius: 999px; background: #7f1d1d; color: #fecaca; font-size: .8rem; font-weight: 700; }
+    #status.online { background: #14532d; color: #bbf7d0; }
+    form { display: flex; gap: .75rem; margin: 1.5rem 0; }
+    input { flex: 1; min-width: 0; padding: .8rem 1rem; border: 1px solid #3f3f46; border-radius: .65rem; background: #09090b; color: inherit; }
+    button { padding: .8rem 1.2rem; border: 0; border-radius: .65rem; background: #7c3aed; color: white; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    ul { min-height: 12rem; margin: 0; padding: 0; display: grid; align-content: start; gap: .6rem; list-style: none; }
+    li { padding: .75rem 1rem; border-radius: .65rem; background: #27272a; overflow-wrap: anywhere; }
+    .empty { color: #a1a1aa; text-align: center; background: transparent; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Mensajes WebSocket</h1>
+      <span id="status">Offline</span>
+    </header>
+    <form>
+      <input type="text" placeholder="Escribe un mensaje" required autocomplete="off">
+      <button type="submit" disabled>Enviar</button>
+    </form>
+    <ul id="messages"><li class="empty">Los mensajes de otros clientes aparecerán aquí.</li></ul>
+  </main>
+  <script>
+    const form = document.querySelector('form');
+    const input = document.querySelector('input');
+    const button = document.querySelector('button');
+    const messages = document.querySelector('#messages');
+    const status = document.querySelector('#status');
+    let socket;
+
+    const renderMessage = (message) => {
+      messages.querySelector('.empty')?.remove();
+      const item = document.createElement('li');
+      item.textContent = message;
+      messages.prepend(item);
+    };
+
+    const connect = () => {
+      const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+      socket = new WebSocket(`${protocol}//${location.host}/ws`);
+
+      socket.addEventListener('open', () => {
+        status.textContent = 'Online';
+        status.classList.add('online');
+        button.disabled = false;
+      });
+
+      socket.addEventListener('close', () => {
+        status.textContent = 'Offline';
+        status.classList.remove('online');
+        button.disabled = true;
+        setTimeout(connect, 1500);
+      });
+
+      socket.addEventListener('message', (event) => {
+        const { payload } = JSON.parse(event.data);
+        renderMessage(payload);
+      });
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const message = input.value.trim();
+      if (!message || socket?.readyState !== WebSocket.OPEN) return;
+      socket.send(message);
+      input.value = '';
+      input.focus();
+    });
+
+    connect();
+  </script>
+</body>
+</html>

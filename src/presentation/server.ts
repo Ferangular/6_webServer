@@ -3,6 +3,7 @@ import express, { Router } from 'express';
 import fileUpload from 'express-fileupload';
 import { Server as HttpServer } from 'http';
 import path from 'path';
+import { WebSocketServer } from './websockets/websocket.server.js';
 
 interface Options {
   port: number;
@@ -13,6 +14,7 @@ interface Options {
 export class Server {
   public readonly app = express();
   private serverListener?: HttpServer;
+  private webSocketServer?: WebSocketServer;
   private readonly port: number;
   private readonly publicPath: string;
   private readonly routes: Router;
@@ -44,12 +46,16 @@ export class Server {
     await new Promise<void>((resolve, reject) => {
       this.serverListener = this.app.listen(this.port, (error?: Error) => {
         if (error) reject(error);
-        else resolve();
+        else {
+          this.webSocketServer = new WebSocketServer(this.serverListener!);
+          resolve();
+        }
       });
     });
   }
 
   public close(): void {
+    this.webSocketServer?.close();
     this.serverListener?.close();
   }
 }

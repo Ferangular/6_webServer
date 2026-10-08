@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de turnos</title>
+  <link rel="stylesheet" href="/tickets.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div><p class="eyebrow">Atención en tiempo real</p><h1>Sistema de turnos</h1></div>
+      <span id="status">Offline</span>
+    </header>
+    <section class="grid">
+      <article>
+        <p>Último turno</p>
+        <strong id="last-ticket">...</strong>
+        <button id="create-ticket">Generar turno</button>
+      </article>
+      <article>
+        <p>Escritorio</p>
+        <input id="desk" placeholder="Ej. 1" autocomplete="off">
+        <strong id="current-ticket">Ninguno</strong>
+        <div class="actions"><button id="draw-ticket">Atender siguiente</button><button id="finish-ticket" class="secondary">Finalizar</button></div>
+        <small><b id="pending-count">...</b> turnos pendientes</small>
+      </article>
+    </section>
+    <section class="board">
+      <div><p>Turno</p><p>Escritorio</p></div>
+      <ol id="working-tickets"><li class="empty">Aún no hay turnos en atención.</li></ol>
+    </section>
+    <p id="feedback" role="status"></p>
+  </main>
+  <script src="/tickets.js"></script>
+</body>
+</html>
