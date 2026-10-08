@@ -13,4 +13,5 @@ export const envs = {
   MAILER_SECRET_KEY: env.get('MAILER_SECRET_KEY').required().asString(),
   WEBSERVICE_URL: env.get('WEBSERVICE_URL').required().asUrlString(),
   DISCORD_WEBHOOK_URL: env.get('DISCORD_WEBHOOK_URL').required().asUrlString(),
+  GITHUB_WEBHOOK_SECRET: env.get('GITHUB_WEBHOOK_SECRET').required().asString(),
 };
